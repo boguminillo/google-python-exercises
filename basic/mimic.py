@@ -46,26 +46,39 @@ import sys
 
 
 def mimic_dict(filename):
-  """Returns mimic dict mapping each word to list of words which follow it."""
-  # +++your code here+++
-  return
+    mimic_dict = {}
+    file = open(filename, 'r')
+    text = file.read()
+    file.close()
+    words = text.split()
+    previous = ' '
+    for word in words:
+        if previous in mimic_dict:
+            mimic_dict[previous] += [word]
+        else:
+            mimic_dict[previous] = [word]
+        previous = word
+    return mimic_dict
 
 
 def print_mimic(mimic_dict, word):
-  """Given mimic dict and start word, prints 200 random words."""
-  # +++your code here+++
-  return
+    for count in range(200):
+        print(word, end=' ')
+        possibles = mimic_dict.get(word)
+        if not possibles:
+            possibles =  mimic_dict[' ']
+        word = random.choice(possibles)
 
 
 # Provided main(), calls mimic_dict() and mimic()
 def main():
-  if len(sys.argv) != 2:
-    print 'usage: ./mimic.py file-to-read'
-    sys.exit(1)
+    if len(sys.argv) != 2:
+        print('usage: ./mimic.py file-to-read')
+        sys.exit(1)
 
-  dict = mimic_dict(sys.argv[1])
-  print_mimic(dict, '')
+    dict = mimic_dict(sys.argv[1])
+    print_mimic(dict, '')
 
 
 if __name__ == '__main__':
-  main()
+    main()
